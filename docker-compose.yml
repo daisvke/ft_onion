@@ -12,27 +12,27 @@ services:
     restart: unless-stopped
 
   tor:
-      image: alpine:latest
-      container_name: tor_service
-      volumes:
-        - ./torrc:/etc/tor/torrc
-      command: ["sh", "-c", "apk add --no-cache tor && tor -f /etc/tor/torrc --Log 'notice stdout'"]
-      ports:
-        - "9050:9050"
-      restart: unless-stopped
+    image: alpine:latest
+    container_name: tor_service
+    volumes:
+      - ./torrc:/etc/tor/torrc
+    command: ["sh", "-c", "apk add --no-cache tor && tor -f /etc/tor/torrc --Log 'notice stdout'"]
+    ports:
+      - "9050:9050"
+    restart: unless-stopped
 
   ssh:
-      image: lscr.io/linuxserver/openssh-server:latest
-      container_name: ssh_server
-      environment:
-        - PUID=1000
-        - PGID=1000
-        - TZ=Etc/UTC
-        - PASSWORD_ACCESS=true
-        - USER_NAME=user
-        - USER_PASSWORD=yourpassword
-      volumes:
-        - ./sshd_config:/etc/ssh/sshd_config
-      ports:
-        - "4242:22"
-      restart: unless-stopped
+    image: lscr.io/linuxserver/openssh-server:latest
+    container_name: ssh_server
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - PASSWORD_ACCESS=true
+      - USER_NAME=user
+      - USER_PASSWORD=yourpassword
+    volumes:
+      - ./sshd_config:/etc/ssh/sshd_config
+    ports:
+      - "4242:22"
+    restart: unless-stopped
