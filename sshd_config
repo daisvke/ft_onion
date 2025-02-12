@@ -3,4 +3,3 @@ PermitRootLogin no
 PasswordAuthentication yes
 PubkeyAuthentication no
 ChallengeResponseAuthentication no
-UsePAM no

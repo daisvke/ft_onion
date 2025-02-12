@@ -9,6 +9,7 @@ services:
       - "80:80"
     depends_on:
       - tor
+    restart: unless-stopped
 
   tor:
       image: alpine:latest
@@ -18,13 +19,15 @@ services:
       command: ["sh", "-c", "apk add --no-cache tor && tor -f /etc/tor/torrc --Log 'notice stdout'"]
       ports:
         - "9050:9050"
+      restart: unless-stopped
 
   ssh:
-      image: linuxserver/openssh-server
+      image: lscr.io/linuxserver/openssh-server:latest
       container_name: ssh_server
       environment:
         - PUID=1000
         - PGID=1000
+        - TZ=Etc/UTC
         - PASSWORD_ACCESS=true
         - USER_NAME=user
         - USER_PASSWORD=yourpassword
@@ -32,3 +35,4 @@ services:
         - ./sshd_config:/etc/ssh/sshd_config
       ports:
         - "4242:22"
+      restart: unless-stopped
