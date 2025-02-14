@@ -1,19 +1,25 @@
 # Use 'docker compose' if you are using the plugin,
 # otherwise use 'docker-compose'
-COMPOSE = docker compose
+COMPOSE		= docker compose
 # COMPOSE = sudo docker-compose
+
+BASE_YML	= docker-compose.yml
+PERSIST_YML	= docker-compose.override.yml
 
 .PHONY: all build up clean fclean re
 
 all: up
 
-# Build/rebuild an image
-build:
-	$(COMPOSE) build
+# The following two recipes shut down containers if up,
+# build all images if not build and run detached containers
 
-# Shut down containers if up, build all images and run detached containers
+# Run container in hostname persistent mode
 up:
-	$(COMPOSE) up -d --build
+	$(COMPOSE) -f $(BASE_YML) -f $(PERSIST_YML) up -d --build
+
+# Run container in hostname nonpersistent mode
+nonpersist:
+	$(COMPOSE) -f $(BASE_YML) up -d --build
 
 # Shut all containers down and delete them
 clean:

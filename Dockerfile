@@ -7,6 +7,10 @@ RUN echo "HiddenServiceDir /var/lib/tor/hidden_service/" >> /etc/tor/torrc && \
     echo "HiddenServicePort 80 127.0.0.1:80" >> /etc/tor/torrc && \
     echo "HiddenServicePort 4242 127.0.0.1:22" >> /etc/tor/torrc
 
+# Copy the setup script into the container
+COPY setup.sh /usr/local/bin/setup.sh
+RUN chmod +x /usr/local/bin/setup.sh
+
 # Configure Nginx
 RUN mkdir -p /var/www/html
 COPY html/index.html /var/www/html/

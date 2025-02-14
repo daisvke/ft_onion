@@ -1,2 +1,6 @@
+# Temp files
 .*.*.sw?
 .*.sw?
+
+# Tor data
+tor_data/*

@@ -1,0 +1,5 @@
+services:
+  tor:
+    volumes:
+     # Mount hidden service directory for persistence
+      - ./tor_data:/var/lib/tor/hidden_service
