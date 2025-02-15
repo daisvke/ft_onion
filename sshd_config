@@ -1,3 +1,4 @@
 Port 4242
 PermitRootLogin no
 PasswordAuthentication yes
+ListenAddress 0.0.0.0

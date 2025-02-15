@@ -19,7 +19,7 @@ all: up
 up:
 	$(COMPOSE) -f $(BASE_YML) -f $(PERSIST_YML) up -d --build
 
-# Run container in hostname nonpersistent mode
+# Run container in hostname non-persistent mode
 nonpersist:
 	$(COMPOSE) -f $(BASE_YML) up -d --build
 
