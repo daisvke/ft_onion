@@ -116,6 +116,31 @@ ssh -p 4242 user@192.168.43.67
     - **Exposure**: The server's IP address is exposed, which can make it a target for attacks. If the server is on a public network, it may be vulnerable to scanning and unauthorized access.
     - **Limited Access**: If you're trying to access the server from outside the local network, you may need to configure port forwarding on your router or use a VPN.
 
+#### SSH fortification
+We secured the SSH service against attacks by adding to our `sshd_config` file:
+```sh
+# Disable root login: Prevent attackers from trying to log in as root.
+PermitRootLogin no
+# Allow only specific users to log in via SSH
+AllowUsers user
+```
+
+**Enable verbose logging**:
+```sh
+# Install syslog (from Dockerfile)
+apt install -y inetutils-syslogd
+
+# Run syslog (from script.sh)
+syslogd
+
+# Add in `sshd_config`:
+SyslogFacility AUTH
+LogLevel VERBOSE
+
+# Check logs
+docker exec -it tor_service cat /var/log/auth.log
+```
+
 ### About HTTPS and the Tor network
 You do not need `HTTPS` for a Tor `.onion` website because Tor already **encrypts all traffic end-to-end**. Unlike the regular internet, where HTTPS is needed to prevent MITM (Man-in-the-Middle) attacks, Tor's network ensures that:
   - End-to-end encryption is built into the protocol.
@@ -126,8 +151,13 @@ You do not need `HTTPS` for a Tor `.onion` website because Tor already **encrypt
 
 ## Useful commands
 ```sh
-# Check the used ports with the corresponding processes
+# Check the used ports inside the container with the corresponding processes
 docker exec -it tor_service ss -tulnp
+
+# Check ports of the container that are open to the outside
+docker ps
+# or
+docker port <CONTAINERR ID>
 ```
 
 ## Screenshot

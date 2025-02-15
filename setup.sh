@@ -18,6 +18,10 @@ SSH_PWD=${SSH_PWD:-password}
 useradd -m -s /bin/bash "$SSH_USER"
 echo "$SSH_USER:$SSH_PWD" | chpasswd
 
+# Create and give permissions to the log file
+touch /var/log/auth.log
+chmod 640 /var/log/auth.log
+
 
 # Services
 
@@ -25,6 +29,7 @@ echo "$SSH_USER:$SSH_PWD" | chpasswd
 service tor start
 # Start SSH
 service ssh start
-
+# Start Syslog
+syslogd
 # Start Nginx in the foreground (to keep the container running)
 nginx -g 'daemon off;'

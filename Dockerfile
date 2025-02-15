@@ -1,6 +1,9 @@
 FROM debian:latest
 
-RUN apt update && apt install -y tor nginx openssh-server && rm -rf /var/lib/apt/lists/*
+RUN apt update && \
+	apt install -y tor nginx openssh-server && \
+	apt install -y inetutils-syslogd && \
+	rm -rf /var/lib/apt/lists/*
 
 # Copy the setup script into the container
 COPY setup.sh /usr/local/bin/setup.sh
