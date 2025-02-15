@@ -7,15 +7,15 @@ COPY setup.sh /usr/local/bin/setup.sh
 RUN chmod +x /usr/local/bin/setup.sh
 
 # Configure Tor
-COPY torrc /etc/tor/torrc
+COPY config/torrc /etc/tor/torrc
 
 # Configure Nginx
 RUN mkdir -p /var/www/html
 COPY html/index.html /var/www/html/
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY config/nginx.conf /etc/nginx/nginx.conf
 
 # Configure SSH
-COPY sshd_config /etc/ssh/sshd_config
+COPY config/sshd_config /etc/ssh/sshd_config
 # This directory is often used by the SSH daemon to store runtime data,
 # such as PID files or socket files.
 #

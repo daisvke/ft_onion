@@ -1,7 +1,8 @@
 # ft_onion 
 
 ## **Description**
-This project sets up a **Tor hidden service** running inside a Docker container with **Nginx** for web hosting and **SSH access**.<br />
+This project sets up a **Tor hidden service** running inside a Docker container with **Nginx** for web hosting and **SSH access**.<br /><br />
+
 It supports **two modes**:  
 1. **Persistent mode**: Keeps the same `.onion` address across restarts.  
 2. **Non-persistent mode**: Generates a new `.onion` address each time.  
@@ -29,7 +30,7 @@ cp .env.example .env
 ```
 Then edit `.env` as needed.
 
-### **3️. Build the images and run the container**
+### **3️. Build the image and run the container**
 #### **🔸 Persistent Onion address**
 You will need this structure (from /var/lib/tor/hidden_service/) to run it with hostname persistence:
 ```sh
@@ -54,7 +55,7 @@ A new **.onion** address will be generated on every restart.
 docker compose down
 # Or
 make clean
-# Or
+# Or do a full clean:
 make fclean
 ```
 These will remove the `.onion` address.
@@ -122,6 +123,16 @@ You do not need `HTTPS` for a Tor `.onion` website because Tor already **encrypt
   - Traffic is encrypted between the client and the hidden service.
   - When you are hosting a .onion Hidden Service, nobody (including exit nodes) can see your traffic because it stays inside the Tor network.
 ---
+
+## Useful commands
+```sh
+# Check the used ports with the corresponding processes
+docker exec -it tor_service ss -tulnp
+```
+
+## Screenshot
+![tor service preview](screenshot/tor_service.png)
+
 ## References
 * [Set up Your Onion Service (torproject.org)](https://community.torproject.org/onion-services/setup/)
 * [docker-compose reference YAML file with comments](https://gist.github.com/ju2wheels/1885539d63dbcfb20729)

@@ -3,7 +3,6 @@
 # Tor
 
 # Fix permissions for the hidden service directory
-# Permissions are overridden if done from the Dockerfile
 chown -R debian-tor:debian-tor /var/lib/tor
 chmod -R 700 /var/lib/tor
 
