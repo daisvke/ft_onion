@@ -74,6 +74,7 @@ Use **Tor Browser** to visit the site.
 - When using `SSH (Secure Shell)` to connect to remote servers, there are two primary modes of operation you can consider: **Direct SSH Connection** and **SSH over Tor (using torsocks)**.
 
 - `torsocks` is a wrapper for applications that need to connect to the internet through the Tor network. It allows these applications to route their traffic through Tor, providing anonymity and privacy for the user.<br />
+
 #### **1. To connect via SSH over Tor using torsocks**
 ```bash
 # Install torsocks
