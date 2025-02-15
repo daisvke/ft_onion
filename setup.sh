@@ -15,14 +15,21 @@
     # Configure Tor for a non-persistent hidden service (no specific directory)
 # fi
 
-echo "HiddenServicePort 80 127.0.0.1:80" >> /etc/tor/torrc
-echo "HiddenServicePort 4242 127.0.0.1:22" >> /etc/tor/torrc
+# echo "HiddenServicePort 80 127.0.0.1:80" >> /etc/tor/torrc
+# echo "HiddenServicePort 4242 127.0.0.1:22" >> /etc/tor/torrc
 
 # Fix permissions for the hidden service directory
+# Permissions are overridden if done from the Dockerfile
 chown -R debian-tor:debian-tor /var/lib/tor
 chmod -R 700 /var/lib/tor
 
 # Start the services
+
+# Start Tor
 service tor start
+
+# Start SSH
+service ssh start
+
+# Start Nginx in the foreground (to keep the container running)
 nginx -g 'daemon off;'
-/usr/sbin/sshd -D

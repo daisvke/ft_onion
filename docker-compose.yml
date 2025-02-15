@@ -10,4 +10,5 @@ services:
       - ./html:/var/www/html
       - ./nginx.conf:/etc/nginx/nginx.conf
       - ./sshd_config:/etc/ssh/sshd_config
+      - ./torrc:/etc/tor/torrc
     entrypoint: /usr/local/bin/setup.sh
