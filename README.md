@@ -113,6 +113,13 @@ ssh -p 4242 user@192.168.43.67
 * **Cons**:
     - **Exposure**: The server's IP address is exposed, which can make it a target for attacks. If the server is on a public network, it may be vulnerable to scanning and unauthorized access.
     - **Limited Access**: If you're trying to access the server from outside the local network, you may need to configure port forwarding on your router or use a VPN.
+
+### About HTTPS and the Tor network
+You do not need `HTTPS` for a Tor `.onion` website because Tor already **encrypts all traffic end-to-end**. Unlike the regular internet, where HTTPS is needed to prevent MITM (Man-in-the-Middle) attacks, Tor's network ensures that:
+  - End-to-end encryption is built into the protocol.
+  - No need for TLS/SSL certificates (Let's Encrypt does not issue .onion certs).
+  - Traffic is encrypted between the client and the hidden service.
+  - When you are hosting a .onion Hidden Service, nobody (including exit nodes) can see your traffic because it stays inside the Tor network.
 ---
 ## References
 * [Set up Your Onion Service (torproject.org)](https://community.torproject.org/onion-services/setup/)
