@@ -3,10 +3,12 @@
 COMPOSE		= docker compose
 # COMPOSE = sudo docker-compose
 
+# The base docker compose YAML file
 BASE_YML	= docker-compose.yml
+# An overriding file for Tor data persistency
 PERSIST_YML	= docker-compose.override.yml
 
-.PHONY: all build up clean fclean re
+.PHONY: all build up nonpersist clean fclean re
 
 all: up
 

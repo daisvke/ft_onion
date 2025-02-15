@@ -1,4 +1,10 @@
 # ft_onion
+
+## Requirements
+- Docker
+- Docker Compose
+- Make
+
 ```bash
 
 # You will need this structure from /var/lib/tor/hidden_service/ to run it with hostname persistence
@@ -15,5 +21,12 @@ docker exec -it tor_service cat /var/lib/tor/hidden_service/hostname
 Make up
 
 # Run container in hostname nonpersistent mode
-Make nonpersist 
+Make nonpersist
+
+# Execute bash from the container
+docker exec -it tor_service /bin/bash
 ```
+
+## References
+* [Set up Your Onion Service (torproject.org)](https://community.torproject.org/onion-services/setup/)
+* [docker-compose reference YAML file with comments](https://gist.github.com/ju2wheels/1885539d63dbcfb20729)

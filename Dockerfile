@@ -2,14 +2,12 @@ FROM debian:latest
 
 RUN apt update && apt install -y tor nginx openssh-server && rm -rf /var/lib/apt/lists/*
 
-# Configure Tor
-# RUN echo "HiddenServiceDir /var/lib/tor/hidden_service/" >> /etc/tor/torrc && \
-#     echo "HiddenServicePort 80 127.0.0.1:80" >> /etc/tor/torrc && \
-#     echo "HiddenServicePort 4242 127.0.0.1:22" >> /etc/tor/torrc
-    
 # Copy the setup script into the container
 COPY setup.sh /usr/local/bin/setup.sh
 RUN chmod +x /usr/local/bin/setup.sh
+
+# Configure Tor
+COPY torrc /etc/tor/torrc
 
 # Configure Nginx
 RUN mkdir -p /var/www/html
@@ -18,8 +16,13 @@ COPY nginx.conf /etc/nginx/nginx.conf
 
 # Configure SSH
 COPY sshd_config /etc/ssh/sshd_config
+# This directory is often used by the SSH daemon to store runtime data,
+# such as PID files or socket files.
+#
+# It is a common practice to create this directory to ensure that the
+# SSH server can start correctly.
 RUN mkdir /run/sshd
 
 EXPOSE 80 4242
 
-# CMD service tor start && nginx -g 'daemon off;' && /usr/sbin/sshd -D
+ENTRYPOINT [ "/usr/local/bin/setup.sh" ]

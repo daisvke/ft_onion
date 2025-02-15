@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Tor
 
@@ -13,11 +13,11 @@ chmod -R 700 /var/lib/tor
 # Set default values if not provided
 # (`:-` is the default value operator in bash)
 SSH_USER=${SSH_USER:-admin}
-SSH_PASS=${SSH_PASS:-password}
+SSH_PWD=${SSH_PWD:-password}
 
 # Create the user (if not exists) and set password
 useradd -m -s /bin/bash "$SSH_USER"
-echo "$SSH_USER:$SSH_PASS" | chpasswd
+echo "$SSH_USER:$SSH_PWD" | chpasswd
 
 
 # Services
@@ -26,5 +26,6 @@ echo "$SSH_USER:$SSH_PASS" | chpasswd
 service tor start
 # Start SSH
 service ssh start
+
 # Start Nginx in the foreground (to keep the container running)
 nginx -g 'daemon off;'

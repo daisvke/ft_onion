@@ -2,6 +2,7 @@
 .*.*.sw?
 .*.sw?
 
+# Private env file
 .env
 
 # Tor data
