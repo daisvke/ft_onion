@@ -17,6 +17,8 @@ SSH_PWD=${SSH_PWD:-password}
 # Create the user (if not exists) and set password
 useradd -m -s /bin/bash "$SSH_USER"
 echo "$SSH_USER:$SSH_PWD" | chpasswd
+# Let the user be the owner of his home folder
+chown "$SSH_USER":"$SSH_USER" /home/"$SSH_USER"/
 
 # Create and give permissions to the log file
 touch /var/log/auth.log
