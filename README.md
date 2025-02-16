@@ -60,12 +60,23 @@ make fclean
 ```
 These will remove the `.onion` address.
 
-#### **Persistent logs**
+#### **Persistent logs and authorized keys for SSH connections**
 You will need this structure for logs persistence:
 ```sh
 ├── logs
 │   ├── auth.log
 │   └── fail2ban.log
+```
+And this one for the authorized SSH keys:
+
+```sh
+├── config
+│   ├── jail.conf
+│   ├── nginx.conf
+│   ├── ssh
+│   │   ├── authorized_keys
+│   │   └── sshd_config
+│   └── torrc
 ```
 ---
 
