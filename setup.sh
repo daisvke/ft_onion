@@ -6,7 +6,6 @@
 chown -R debian-tor:debian-tor /var/lib/tor
 chmod -R 700 /var/lib/tor
 
-
 # SSH
 
 # Set default values if not provided
@@ -23,7 +22,9 @@ chown "$SSH_USER":"$SSH_USER" /home/"$SSH_USER"/
 # Create and give permissions to the log file
 touch /var/log/auth.log
 chmod 640 /var/log/auth.log
-
+# To track users connected via SSH (`who`, `w`, `users` commands)
+touch /var/run/utmp
+chmod 640 /var/run/utmp
 
 # Start services
 

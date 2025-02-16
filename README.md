@@ -146,6 +146,7 @@ LogLevel VERBOSE  # With `INFO` we didn't get any SSH access logs
 
 # Check logs
 docker exec -it tor_service cat /var/log/auth.log
+cat /var/run/utmp
 ```
 
 **3. Prevent brute-force attacks by banning IPs after failed login attempts (Fail2ban)**:
@@ -183,7 +184,7 @@ cat /var/log/fail2ban.log
 The address `192.168.16.1` is being banned.
 
 **4. Use Key-Based Authentication**:
-    - Generate an SSH key pair on your local machine:
+    - If not done yet, generate an SSH key pair on your local machine:
 	```sh
     ssh-keygen
 	```
@@ -191,8 +192,8 @@ The address `192.168.16.1` is being banned.
     - Copy the public key to the remote server:
 
 	```sh
-    ssh-copy-id user@remote_server
-	# Ex.: ssh-copy-id user@localhost
+    ssh-copy-id user@remote_server -p 4242
+	# Ex.: ssh-copy-id user@localhost -p 4242
 	```
     - This will add an entry to `/home/user/.ssh/authorized_keys` in the container, and to `config/ssh/authorized_keys` on the host machine. Now the client can connect automatically to the server without having tolog in.
 
