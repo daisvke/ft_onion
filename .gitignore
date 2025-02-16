@@ -1,6 +1,7 @@
 # Temp files
 .*.*.sw?
 .*.sw?
+*.*.old
 
 # Private env file
 .env

@@ -23,13 +23,12 @@ touch /var/log/auth.log
 chmod 640 /var/log/auth.log
 
 
-# Services
+# Start services
 
-# Start Tor
 service tor start
-# Start SSH
 service ssh start
-# Start Syslog
 syslogd
+service fail2ban start
+
 # Start Nginx in the foreground (to keep the container running)
 nginx -g 'daemon off;'

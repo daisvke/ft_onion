@@ -1,8 +1,11 @@
 FROM debian:latest
 
 RUN apt update && \
+	apt install -y vim && \
 	apt install -y tor nginx openssh-server && \
 	apt install -y inetutils-syslogd && \
+	apt install -y fail2ban && \
+	apt install -y iptables && \
 	rm -rf /var/lib/apt/lists/*
 
 # Copy the setup script into the container
@@ -25,6 +28,9 @@ COPY config/sshd_config /etc/ssh/sshd_config
 # It is a common practice to create this directory to ensure that the
 # SSH server can start correctly.
 RUN mkdir /run/sshd
+
+# Configure Fail2ban
+COPY config/jail.conf /etc/fail2ban/jail.conf
 
 EXPOSE 80 4242
 
