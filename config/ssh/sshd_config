@@ -1,9 +1,7 @@
 Port 4242
 PermitRootLogin no
-PasswordAuthentication yes
+PasswordAuthentication no
 ListenAddress 0.0.0.0
 AllowUsers user
 SyslogFacility AUTH
 LogLevel VERBOSE
-ClientAliveInterval 30
-ClientAliveCountMax 0

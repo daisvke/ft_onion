@@ -195,13 +195,23 @@ The address `192.168.16.1` is being banned.
     ssh-copy-id user@remote_server -p 4242
 	# Ex.: ssh-copy-id user@localhost -p 4242
 	```
-    - This will add an entry to `/home/user/.ssh/authorized_keys` in the container, and to `config/ssh/authorized_keys` on the host machine. Now the client can connect automatically to the server without having tolog in.
+    - This will add an entry to `/home/user/.ssh/authorized_keys` in the container, and to `config/ssh/authorized_keys` on the host machine. Now the client can connect automatically to the server without having to log in.
 
     - Disable password authentication in the /etc/ssh/sshd_config file:
 
 	```sh
 	PasswordAuthentication no
 	```
+    Put back `yes` if you want to register a new user.
+
+##### **To unlog a user from its SSH connection**
+```sh
+# find the PID of the process managing the SSH session
+ps aux | grep ssh
+# Kill the process
+kill <PID>
+# Connection is then closed
+```
 
 ##### **Accessing through Tor socket**
 In our case `Fail2Ban` wasn't detecting SSH login failures over Tor socket. This is because of how Tor handles connections and how Fail2Ban reads logs:
