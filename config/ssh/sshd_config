@@ -5,3 +5,5 @@ ListenAddress 0.0.0.0
 AllowUsers user
 SyslogFacility AUTH
 LogLevel VERBOSE
+ClientAliveInterval 300
+ClientAliveCountMax 0

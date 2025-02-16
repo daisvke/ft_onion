@@ -3,8 +3,11 @@
 .*.sw?
 *.*.old
 
-# Private env file
+# Private files
 .env
+authorized_keys
+auth.log
+fail2ban.log
 
 # Tor data
 tor_data/*

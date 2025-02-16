@@ -60,6 +60,13 @@ make fclean
 ```
 These will remove the `.onion` address.
 
+#### **Persistent logs**
+You will need this structure for logs persistence:
+```sh
+├── logs
+│   ├── auth.log
+│   └── fail2ban.log
+```
 ---
 
 ## **Accessing the services**
@@ -125,24 +132,87 @@ PermitRootLogin no
 AllowUsers user
 ```
 
-**Enable verbose logging**:
+**2. Enable verbose logging**:
 ```sh
 # Install syslog (from Dockerfile)
-apt install -y inetutils-syslogd
+apt update && apt install -y inetutils-syslogd
 
 # Run syslog (from script.sh)
 syslogd
 
 # Add in `sshd_config`:
 SyslogFacility AUTH
-LogLevel VERBOSE
+LogLevel VERBOSE  # With `INFO` we didn't get any SSH access logs
 
 # Check logs
 docker exec -it tor_service cat /var/log/auth.log
 ```
 
+**3. Prevent brute-force attacks by banning IPs after failed login attempts (Fail2ban)**:
+```sh
+# Install Fail2ban
+apt update && apt install -y fail2ban
+
+# Edit config file
+vim config/jail.conf
+
+# We need to add a capability on the docker compose file
+# to run the container with networking permissions.
+# This is because `iptables` doesn't run without those permissions.
+cap_add:
+	- NET_ADMIN
+
+# In jail.conf we must have:
+[sshd]
+
+port    = 4242
+logpath = %(sshd_log)s
+backend = %(sshd_backend)s
+
+# Run Fail2ban
+service fail2ban start
+
+# Check status (total failed, total banned, etc)
+fail2ban-client status sshd
+
+# Display logs
+cat /var/log/fail2ban.log
+```
+
+![SSL & Fail2ban Authentication preview](screenshot/auth.png)
+The address `192.168.16.1` is being banned.
+
+**4. Use Key-Based Authentication**:
+    - Generate an SSH key pair on your local machine:
+	```sh
+    ssh-keygen
+	```
+
+    - Copy the public key to the remote server:
+
+	```sh
+    ssh-copy-id user@remote_server
+	# Ex.: ssh-copy-id user@localhost
+	```
+    - This will add an entry to `/home/user/.ssh/authorized_keys` in the container, and to `config/ssh/authorized_keys` on the host machine. Now the client can connect automatically to the server without having tolog in.
+
+    - Disable password authentication in the /etc/ssh/sshd_config file:
+
+	```sh
+	PasswordAuthentication no
+	```
+
+##### **Accessing through Tor socket**
+In our case `Fail2Ban` wasn't detecting SSH login failures over Tor socket. This is because of how Tor handles connections and how Fail2Ban reads logs:
+  - when using Tor, **all connections appear to come from 127.0.0.1 (localhost)** because Tor is **forwarding** the request.
+  - Therefore, we needed to ignore login failures coming from the localhost:
+  ```
+  ignoreip = 127.0.0.1/8 ::1
+  ```
+  `::1` is the **IPv6 loopback address**, equivalent to `127.0.0.1` in **IPv4**.
+
 ### About HTTPS and the Tor network
-You do not need `HTTPS` for a Tor `.onion` website because Tor already **encrypts all traffic end-to-end**. Unlike the regular internet, where HTTPS is needed to prevent MITM (Man-in-the-Middle) attacks, Tor's network ensures that:
+You do not need `HTTPS` for a Tor `.onion` website because Tor already **encrypts all traffic end-to-end**. Unlike the regular internet, where HTTPS is needed to prevent MITM (Man-in-the-Middle) attacks, Tor's network ensures that:	
   - End-to-end encryption is built into the protocol.
   - No need for TLS/SSL certificates (Let's Encrypt does not issue .onion certs).
   - Traffic is encrypted between the client and the hidden service.

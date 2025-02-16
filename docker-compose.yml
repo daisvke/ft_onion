@@ -3,6 +3,7 @@ services:
     container_name: tor_service
     # Run the Dockerfile on the root directory
     build: ./
+    # Run with networking permissions (for fail2ban with iptables)
     cap_add:
       - NET_ADMIN
     # Bind host ports to container ports
@@ -34,6 +35,9 @@ services:
     volumes:
       - ./html:/var/www/html:rw
       - ./config/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./config/sshd_config:/etc/ssh/sshd_config:ro
+      - ./config/ssh/sshd_config:/etc/ssh/sshd_config:ro
+      - ./config/ssh/authorized_keys:/home/user/.ssh/authorized_keys:rw
       - ./config/torrc:/etc/tor/torrc:ro
-      - ./config/jail.conf:/etc/fail2ban/jail.conf
+      - ./config/jail.conf:/etc/fail2ban/jail.conf:ro
+      - ./logs/auth.log:/var/log/auth.log:rw
+      - ./logs/fail2ban.log:/var/log/fail2ban.log:rw

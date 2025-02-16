@@ -21,7 +21,10 @@ COPY html/index.html /var/www/html/
 COPY config/nginx.conf /etc/nginx/nginx.conf
 
 # Configure SSH
-COPY config/sshd_config /etc/ssh/sshd_config
+COPY config/ssh/sshd_config /etc/ssh/sshd_config
+COPY logs/auth.log /var/log/auth.log
+COPY config/ssh/authorized_keys /home/user/.ssh/authorized_keys
+
 # This directory is often used by the SSH daemon to store runtime data,
 # such as PID files or socket files.
 #
@@ -31,6 +34,7 @@ RUN mkdir /run/sshd
 
 # Configure Fail2ban
 COPY config/jail.conf /etc/fail2ban/jail.conf
+COPY logs/fail2ban.log /var/log/fail2ban.log
 
 EXPOSE 80 4242
 
