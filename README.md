@@ -78,7 +78,7 @@ make clean
 # Or do a full clean:
 make fclean
 ```
-These will remove the `.onion` address.
+These will remove the `.onion` address across restarts.
 
 ---
 
@@ -196,26 +196,25 @@ cat /var/log/fail2ban.log
 ![SSL & Fail2ban Authentication preview](screenshot/auth.png)
 The address `192.168.16.1` is being banned.
 
-**4. Use Key-Based Authentication**:
-    - If not done yet, generate an SSH key pair on your local machine:
-	```sh
-    ssh-keygen
-	```
+**4. Use Key-Based Authentication**:<br />
+- If not done yet, generate an SSH key pair on your local machine:
+```sh
+ssh-keygen
+```
+- Copy the public key to the remote server:
 
-    - Copy the public key to the remote server:
+```sh
+ssh-copy-id user@remote_server -p 4242
+# Ex.: ssh-copy-id user@localhost -p 4242
+```
+- This will add an entry to `/home/user/.ssh/authorized_keys` in the container, and to `config/ssh/authorized_keys` on the host machine. Now the client can connect automatically to the server without having to log in.
 
-	```sh
-    ssh-copy-id user@remote_server -p 4242
-	# Ex.: ssh-copy-id user@localhost -p 4242
-	```
-    - This will add an entry to `/home/user/.ssh/authorized_keys` in the container, and to `config/ssh/authorized_keys` on the host machine. Now the client can connect automatically to the server without having to log in.
+- Disable password authentication in the /etc/ssh/sshd_config file:
 
-    - Disable password authentication in the /etc/ssh/sshd_config file:
-
-	```sh
-	PasswordAuthentication no
-	```
-    Put back `yes` if you want to register a new user.
+```sh
+PasswordAuthentication no
+```
+Put back `yes` if you want to register a new user.
 
 ##### **To unlog a user from its SSH connection**
 ```sh
@@ -230,7 +229,9 @@ kill <PID>
 In our case `Fail2Ban` wasn't detecting SSH login failures over Tor socket. This is because of how Tor handles connections and how Fail2Ban reads logs:
   - when using Tor, **all connections appear to come from 127.0.0.1 (localhost)** because Tor is **forwarding** the request.
   - Therefore, we needed to ignore login failures coming from the localhost:
-  ```
+
+  ```sh
+  # In `jail.conf`:
   ignoreip = 127.0.0.1/8 ::1
   ```
   `::1` is the **IPv6 loopback address**, equivalent to `127.0.0.1` in **IPv4**.
@@ -251,7 +252,7 @@ docker exec -it tor_service ss -tulnp
 # Check ports of the container that are open to the outside
 docker ps
 # or
-docker port <CONTAINERR ID>
+docker port <CONTAINER ID>
 ```
 
 ## Screenshot
