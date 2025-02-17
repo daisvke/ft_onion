@@ -5,6 +5,7 @@
 
 # Private files
 .env
+env.sh
 authorized_keys
 auth.log
 fail2ban.log
