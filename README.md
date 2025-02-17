@@ -31,7 +31,27 @@ cp .env.example .env
 Then edit `.env` as needed.
 
 ### **3️. Build the image and run the container**
-#### **🔸 Persistent Onion address**
+
+#### **Files to create in the folder**
+
+You will need this structure for log persistence:
+```sh
+├── logs
+│   ├── auth.log
+│   └── fail2ban.log
+```
+And this one for the persistence of the authorized SSH keys:
+
+```sh
+├── config
+│   ├── ssh
+│   │   └── authorized_keys
+```
+These files can be empty, just create them using `touch <FILE>`.<br /><br />
+
+Now that we have all the necessary empty files, we have two modes in which we can run this project:
+
+#### **1. Persistent Onion address**
 You will need this structure (from /var/lib/tor/hidden_service/) to run it with hostname persistence:
 ```sh
 ├── tor_data
@@ -45,7 +65,7 @@ make up
 ```
 This will keep the same **.onion** address across restarts.  
 
-#### **🔹 Non-persistent Onion address**
+#### **2. Non-persistent Onion address**
 ```sh
 make nonpersist
 ```
@@ -60,24 +80,6 @@ make fclean
 ```
 These will remove the `.onion` address.
 
-#### **Persistent logs and authorized keys for SSH connections**
-You will need this structure for logs persistence:
-```sh
-├── logs
-│   ├── auth.log
-│   └── fail2ban.log
-```
-And this one for the authorized SSH keys:
-
-```sh
-├── config
-│   ├── jail.conf
-│   ├── nginx.conf
-│   ├── ssh
-│   │   ├── authorized_keys
-│   │   └── sshd_config
-│   └── torrc
-```
 ---
 
 ## **Accessing the services**
