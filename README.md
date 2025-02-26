@@ -26,11 +26,23 @@ cd ft_onion
 ### **2️. Configure environment variables**
 Create a `.env` file from the example:  
 ```sh
+# For ft_onion 
 cp .env.example .env
-```
-Then edit `.env` as needed.
 
-### **3️. Build the image and run the container**
+# For Slate Note
+cp html/slate/.env.example html/slate/.env
+```
+Then edit `.env` files as needed.
+
+### **3. Configuration on Windows**
+**Line Endings**: If the setup.sh script was created or edited in Windows, it might have **Windows-style line endings (CRLF)** instead of **Unix-style line endings (LF)**. This can cause issues when executing the script in a Unix-like environment. You can convert the line endings using the dos2unix command:
+
+```sh
+sudo apt install dos2unix
+dos2unix setup.sh
+```
+
+### **4. Build the image and run the container**
 
 #### **Files to create in the folder**
 
