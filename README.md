@@ -7,6 +7,7 @@ It supports **two modes**:
 1. **Persistent mode**: Keeps the same `.onion` address across restarts.  
 2. **Non-persistent mode**: Generates a new `.onion` address each time.  
 
+![Slate Note](screenshots/slate_note.png)
 ---
 
 ## **Setup instructions**
@@ -192,7 +193,7 @@ fail2ban-client status sshd
 cat /var/log/fail2ban.log
 ```
 
-![SSL & Fail2ban Authentication preview](screenshot/auth.png)
+![SSL & Fail2ban Authentication preview](screenshots/auth.png)
 The address `192.168.16.1` is being banned.
 
 **4. Use Key-Based Authentication**:<br />
@@ -258,7 +259,7 @@ docker exec -it tor_service nginx -t
 ```
 
 ## Screenshot
-![tor service preview](screenshot/tor_service.png)
+![tor service preview](screenshots/tor_service.png)
 
 ## References
 * [Set up Your Onion Service (torproject.org)](https://community.torproject.org/onion-services/setup/)
