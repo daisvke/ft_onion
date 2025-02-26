@@ -1,0 +1,6 @@
+.env
+.htaccess
+access.log
+error.log
+.*.*.sw?
+.*.sw?

@@ -1,0 +1,177 @@
+/* THESE STYLES CONCERN THE FORMS */
+
+/*  ----------------------------------------------------
+  FORMS
+-------------------------------------------------------- */
+
+/* Global CSS variables */
+:root {
+    --fieldset-width: 90vw;
+    --fieldset-pad: 1em;
+    --note-datetime-width: 20px;
+    --del-button-width: 15px;
+    --green-button-width: 45px;
+
+    --note-input-width: calc(
+        var(--fieldset-width)
+        - var(--fieldset-pad) * 2
+        - var(--note-datetime-width)
+        - var(--del-button-width)
+        - var(--green-button-width)
+        - 10vw
+        )
+}
+
+.del-button {
+    width: var(--del-button-width);
+    background-color: black;
+}
+
+#website-intro {
+    margin-bottom: 3vh;
+    font-size: .85em;
+    font-family: Helvetica, Tahoma, sans-serif;
+    text-transform: uppercase;
+}
+
+#msg_form label {
+    text-transform: uppercase;
+    font-size: .7em;
+    font-family: Helvetica, Tahoma, sans-serif;
+    letter-spacing: .1em;
+    line-height: 1em;
+}
+
+#msg_form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin: auto;
+    border: none;
+    padding-top: 1em;
+    width: 35vw;
+}
+
+#msg_form input {
+    height: 1.9em;
+    background-color: #242526;
+    font-family: "Courier New", monospace, serif;
+    font-size: 1.1em;
+    margin-bottom: .9em;
+    color: #e8e8ea;
+    width: var(--note-input-width);
+}
+
+#msg_form label {
+    margin-bottom: .9em;
+    width: 100%;
+}
+
+#msg_form textarea {
+    font-family: "Courier New", monospace, serif;
+    font-size: 1.1em;
+    height: 30vh;
+    margin-bottom: .9em;
+}
+
+.red {
+    color: #bb2903;
+}
+
+#msg_form .submit {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media screen and (max-width: 250px) {
+    #msg_form {
+        margin-top: 30%;
+    }
+}
+
+#msg_form textarea {
+    width: 100%;
+    background-color: #232323;
+    color: var(--gray-white);
+    font-size: .9em;
+}
+
+#msg_form, #msg_form fieldset {
+    width: var(--fieldset-width);
+}
+
+.note-div {
+    display: flex;
+    flex-direction: row;
+    justify-items: center;
+    justify-content: space-between;
+}
+
+#entries {
+    margin-top: 3vh;
+    list-style: none;
+    font-size: .9em;
+    padding: 0;
+}
+
+#entries li {
+    margin-bottom: 1em;
+}
+
+.copy-del-buttons {
+    display: flex;
+    flex-direction: row;
+    margin-left: 1em;
+}
+
+.note-input-div {
+    margin-left: 1em;
+}
+
+.note-input {
+    background-color: #303030;
+    color: #FFF
+}
+
+/* Submit button */
+.submit {
+    width: 5em;
+    border: 1px solid var(--green-button-border); /* green1 */
+    background-color: var(--green-button);
+    border-radius: 2px;
+    text-transform: uppercase;
+    font-family: Helvetica, Tahoma, sans-serif;
+    letter-spacing: .1em;
+    font-size: .8em;
+    font-weight: 600;
+    color: var(--gray-white);
+    padding: .2em;
+}
+
+.submit:hover {
+    cursor: pointer;
+    background-color: var(--green-button-border);
+    color: var(--gray-white);
+}
+
+.submit:active {
+    color: var(--gray-white);
+    background-color: #bb2903;
+}
+
+/* Input validation error */
+.error {
+    color: #d9e814; /* yellow */
+}
+
+input, textarea {
+    border: none;
+}
+
+input:focus, textarea:focus {
+    outline: none !important;
+    border:1px solid var(--gray-white);
+    box-shadow: 0 0 8px var(--gray-white);
+}

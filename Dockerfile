@@ -1,11 +1,10 @@
 FROM debian:latest
 
+# Install all the necessary packages and remove the apt cache when finished
 RUN apt update && \
 	apt install -y vim && \
-	apt install -y tor nginx openssh-server && \
-	apt install -y inetutils-syslogd && \
-	apt install -y fail2ban && \
-	apt install -y iptables && \
+	apt install -y tor nginx openssh-server php8.2-fpm && \
+	apt install -y inetutils-syslogd fail2ban iptables && \
 	rm -rf /var/lib/apt/lists/*
 
 # Copy the setup script into the container
@@ -17,7 +16,7 @@ COPY config/torrc /etc/tor/torrc
 
 # Configure Nginx
 RUN mkdir -p /var/www/html
-COPY html/index.html /var/www/html/
+COPY html/slate /var/www/html/slate
 COPY config/nginx.conf /etc/nginx/nginx.conf
 
 # Configure SSH

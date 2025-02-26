@@ -1,0 +1,181 @@
+/* THESE STYLES ARE GLOBAL */
+
+/* ------------------------------------- */
+/* TABLE OF CONTENTS
+/* -------------------------------------
+    1 - GLOBAL
+    2 - MENU BUTTONS
+    3 - TEXT
+    4 - LINKS
+   ------------------------------------- */
+
+
+/*  ----------------------------------------------------
+  1 - GLOBAL
+-------------------------------------------------------- */
+
+/* Global CSS variables */
+:root {
+    --gray: #474545;
+    --green-button: #007a10;
+    --green-button-border: rgba(0, 122, 16, .5);
+    --gray-white: #e8e8ea;
+}
+
+/* Selection in dark grey */
+::-moz-selection {
+    /* Code for Firefox */
+    color: #FFF;
+    background: #2e3638;
+}
+
+::selection {
+    color: #FFF;
+    background: #2e3638;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    overflow-x: hidden;
+}
+
+body {
+    padding-top: 2vh;
+    font-family: "Courier New", monospace, sans-serif;
+    font-size: 14px;
+    background-color: #1d1d1e;
+    color: var(--gray-white);
+    margin: 0;
+    position: relative;
+    min-height: 100vh;
+}
+
+fieldset {
+    border: 1px solid var(--gray);
+    padding: var(--fieldset-pad);
+}
+
+
+.full-height {
+    min-height: 80vh;
+    padding-bottom: 10vh;
+}
+
+.hide {
+    visibility: hidden;
+}
+
+/* ASCII art main logo */
+#home-logo {
+    font-size: .3em;
+    padding-left: 5vw;
+    color: #FFF;
+}
+
+/* Error pages */
+#error-page-title {
+    font-size: 6em;
+    background-color: #d9e814;
+    margin-bottom: .5em;
+    margin-top: 0;
+    width: 3em;
+    color: #FFF;
+}
+
+
+/*  ----------------------------------------------------
+  2 - MENU BUTTONS
+-------------------------------------------------------- */
+
+button {
+    cursor: pointer;
+}
+
+.green-button {
+    border: 1px solid var(--green-button-border);
+    border-radius: 2px;
+    background-color: var(--green-button);
+    text-transform: uppercase;
+    font-family: Helvetica, Tahoma, sans-serif;
+    letter-spacing: .1em;
+    font-size: .9em;
+    font-weight: 600;
+    color: var(--gray-white);
+    padding: .2em;
+    width: var(--green-button-width);
+    height: 24px;
+    cursor: pointer;
+}
+
+
+/*  ----------------------------------------------------
+  3 - TEXT
+-------------------------------------------------------- */
+
+.align-text-left {
+    display: inline-block;
+    text-align: left;
+}
+
+.justify-text {
+    display: inline-block;
+    text-align: justify;
+}
+
+.center-text {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.italic {
+    font-style: italic;
+}
+
+.bold {
+    font-weight: 600;
+}
+
+.section-title {
+    font-weight: 800;
+}
+
+
+/*  ----------------------------------------------------
+  4 - LINKS
+-------------------------------------------------------- */
+
+a {
+    color: inherit;
+    text-decoration: none;
+    -webkit-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+}
+
+a:focus,
+a:link {
+    text-decoration: none;
+    outline: none;
+    color: inherit;
+    -webkit-transition: all 0.4s ease-out;
+    transition: all 0.4s ease-out;
+}
+
+a:hover {
+    text-decoration: none;
+    outline: none;
+    -webkit-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+    opacity: .6;
+}
+
+a:active {
+    text-decoration: none;
+    outline: none;
+    color: inherit;
+    -webkit-transition: all 0.4s ease-out;
+    transition: all 0.4s ease-out;
+}

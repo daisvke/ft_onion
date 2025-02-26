@@ -33,7 +33,7 @@ services:
     # (HOST:CONTAINER), or an access mode (HOST:CONTAINER:ro):
     # Read-Only (ro) / Read-Write (rw)
     volumes:
-      - ./html:/var/www/html:rw
+      - ./html/slate:/var/www/slate:rw
       - ./config/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./config/ssh/sshd_config:/etc/ssh/sshd_config:ro
       - ./config/ssh/authorized_keys:/home/user/.ssh/authorized_keys:rw

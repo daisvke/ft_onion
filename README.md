@@ -1,7 +1,7 @@
 # ft_onion 
 
 ## **Description**
-This project sets up a **Tor hidden service** running inside a Docker container with **Nginx** for web hosting and **SSH access**.<br /><br />
+This project sets up a **Tor hidden service** running inside a Docker container with **Nginx** for web hosting and **SSH access**. The website hosted is called **Slate Notes**, which is a platform where users can write and store secret notes securely. This setup ensures that all communications are anonymized and protected, allowing users to maintain their privacy while managing their sensitive information.<br /><br />
 
 It supports **two modes**:  
 1. **Persistent mode**: Keeps the same `.onion` address across restarts.  
@@ -15,7 +15,6 @@ It supports **two modes**:
 - Docker
 - Docker Compose
 - Make<br />
-etc
 
 ### **1️. Clone the repository**
 ```sh
@@ -253,6 +252,9 @@ docker exec -it tor_service ss -tulnp
 docker ps
 # or
 docker port <CONTAINER ID>
+
+# Check Nginx config file syntax and run test
+docker exec -it tor_service nginx -t
 ```
 
 ## Screenshot

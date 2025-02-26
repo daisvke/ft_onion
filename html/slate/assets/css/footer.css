@@ -1,0 +1,52 @@
+/* THESE STYLES CONCERN THE FOOTER */
+
+/*  ----------------------------------------------------
+  FOOTER
+-------------------------------------------------------- */
+
+footer {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    position: relative;
+    bottom: 0;
+    justify-content: center;
+    align-items: center;
+    font-size: .8em;
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+    font-family: Helvetica, Tahoma, sans-serif;
+    letter-spacing: .1em;
+    line-height: 1em;
+    padding: 1vh 0 10vh 0;
+}
+
+footer div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-bottom: 1.5em;
+}
+
+@media screen and (min-width: 451px) and (max-width: 768px) {
+
+    footer {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+    }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    footer {
+        height: 20vh;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    footer {
+        height: 10vh;
+    }
+}

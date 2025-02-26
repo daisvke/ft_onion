@@ -6,6 +6,15 @@
 chown -R debian-tor:debian-tor /var/lib/tor
 chmod -R 700 /var/lib/tor
 
+# PHP website
+
+# Choose an owner having sufficient permissions to write on the file
+chown www-data:www-data /var/www/html/data.csv
+# Apply usual modes for folders/files
+find /var/www/html -type d -exec chmod 755 {} \;
+find /var/www/html -type f -exec chmod 644 {} \;
+
+
 # SSH
 
 # Set default values if not provided
@@ -32,6 +41,7 @@ service tor start
 service ssh start
 syslogd
 service fail2ban start
+service php8.2-fpm start
 
 # Start Nginx in the foreground (to keep the container running)
 nginx -g 'daemon off;'
