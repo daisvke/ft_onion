@@ -53,7 +53,9 @@ This one for the persistence of the authorized SSH keys:
 ```
 
 #### Website intergration
-By default, we have our Slate Notes website hosted on the container, but you can add any other PHP or HTML website using the default configuration. Just place your web project at /html/my_project and replace `slate` by `my_project` on configuration and Docker files.
+By default, we have our Slate Notes website hosted on the container,
+but you can add any other PHP or HTML website using the default configuration.
+Just place your web project at html/my_project and replace `slate` by `my_project` on configuration and Docker files.
 
 #### These files can be empty, just create them using:
 ```sh
