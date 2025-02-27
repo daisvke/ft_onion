@@ -27,9 +27,13 @@ cd ft_onion
 #### **.env files to create**
 Create a `.env` file from the example:  
 ```sh
+# For ft_onion 
 cp .env.example .env
+
+# For Slate Note
+cp html/slate/.env.example html/slate/.env
 ```
-Then edit `.env` as needed.
+Then edit `.env` files as needed.
 
 #### **Log files to create**
 You will need this structure for log persistence:
@@ -38,25 +42,30 @@ You will need this structure for log persistence:
 │   ├── auth.log
 │   └── fail2ban.log
 ```
-And this one for the persistence of the authorized SSH keys:
+
+#### **SSH file to create**
+This one for the persistence of the authorized SSH keys:
 
 ```sh
 ├── config
 │   ├── ssh
 │   │   └── authorized_keys
 ```
-These files can be empty, just create them using
+
+#### Website intergration
+By default, we have our Slate Notes website hosted on the container, but you can add any other PHP or HTML website using the default configuration. Just place your web project at /html/my_project and replace `slate` by `my_project` on configuration and Docker files.
+
+#### These files can be empty, just create them using:
 ```sh
+# On Unix
 touch logs/auth.log logs/fail2ban.log config/ssh/authorized_keys
-```
-Or, on Windows:
-```
+# On Windows
 New-Item -Path "logs/auth.log", "logs/fail2ban.log", "config/ssh/authorized_keys" -ItemType File
 ```
 
-Now that we have all the necessary empty files, we have two modes in which we can run this project:
+### 3. **Build the image and run the container**
 
-### **3️. Build the image and run the container**
+Now that we have all the necessary empty files, we have two modes in which we can run this project:
 
 #### **1. Persistent Onion address**
 You will need this structure (from /var/lib/tor/hidden_service/) to run it with hostname persistence:
