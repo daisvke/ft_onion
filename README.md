@@ -23,17 +23,15 @@ git clone https://github.com/daisvke/ft_onion.git
 cd ft_onion
 ```
 
-### **2️. Configure environment variables**
+### **2️. Configure environment**
+#### **.env files to create**
 Create a `.env` file from the example:  
 ```sh
 cp .env.example .env
 ```
 Then edit `.env` as needed.
 
-### **3️. Build the image and run the container**
-
-#### **Files to create in the folder**
-
+#### **Log files to create**
 You will need this structure for log persistence:
 ```sh
 ├── logs
@@ -47,9 +45,18 @@ And this one for the persistence of the authorized SSH keys:
 │   ├── ssh
 │   │   └── authorized_keys
 ```
-These files can be empty, just create them using `touch <FILE>`.<br /><br />
+These files can be empty, just create them using
+```sh
+touch logs/auth.log logs/fail2ban.log config/ssh/authorized_keys
+```
+Or, on Windows:
+```
+New-Item -Path "logs/auth.log", "logs/fail2ban.log", "config/ssh/authorized_keys" -ItemType File
+```
 
 Now that we have all the necessary empty files, we have two modes in which we can run this project:
+
+### **3️. Build the image and run the container**
 
 #### **1. Persistent Onion address**
 You will need this structure (from /var/lib/tor/hidden_service/) to run it with hostname persistence:
