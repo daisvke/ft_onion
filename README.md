@@ -61,6 +61,7 @@ Just place your web project at html/my_project and replace `slate` by `my_projec
 ```sh
 # On Unix
 touch logs/auth.log logs/fail2ban.log config/ssh/authorized_keys
+
 # On Windows
 New-Item -Path "logs/auth.log", "logs/fail2ban.log", "config/ssh/authorized_keys" -ItemType File
 ```
