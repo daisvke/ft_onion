@@ -1,3 +1,16 @@
+# Tor Hidden Service Configuration
+
+# Directory to store .onion keys and hostname
 HiddenServiceDir /var/lib/tor/hidden_service/
+
+# Expose internal static .onion page
 HiddenServicePort 80 127.0.0.1:80
+
+# Expose internal SSH-SOCKS5 service
 HiddenServicePort 4242 127.0.0.1:4242
+
+# Log details for debugging
+Log notice file /var/log/tor/notice.log
+
+# Log more detailed information (including client access attempts)
+Log info file /var/log/tor/access.log

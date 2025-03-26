@@ -9,7 +9,8 @@ chmod -R 700 /var/lib/tor
 # PHP website
 
 # Choose an owner having sufficient permissions to write on the file
-chown www-data:www-data /var/www/html/data.csv
+# chown www-data:www-data /var/www/html/data.csv
+
 # Apply usual modes for folders/files
 find /var/www/html -type d -exec chmod 755 {} \;
 find /var/www/html -type f -exec chmod 644 {} \;
@@ -44,4 +45,12 @@ service fail2ban start
 service php8.2-fpm start
 
 # Start Nginx in the foreground (to keep the container running)
+#
+# In a Docker container, the main process of the container should
+# 	run in the foreground. If the main process exits, the container stops.
+# By running Nginx in the foreground, you ensure that the container
+# remains running as long as Nginx is active.
+#
+# The `-g` option allows us to specify global directives for Nginx.
+
 nginx -g 'daemon off;'

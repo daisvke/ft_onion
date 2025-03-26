@@ -1,7 +1,7 @@
 # ft_onion 
 
 ## **Description**
-This project sets up a **Tor hidden service** running inside a Docker container with **Nginx** for web hosting and **SSH access**. The website hosted is called **Slate Notes**, which is a platform where users can write and store secret notes securely. This setup ensures that all communications are anonymized and protected, allowing users to maintain their privacy while managing their sensitive information.<br /><br />
+This project sets up a **Tor hidden service** running inside a secured Docker container with **Nginx** for web hosting and **SSH access**. The website hosted is called **Slate Notes**, which is a platform where users can write and store secret notes securely. This setup ensures that all communications are anonymized and protected, allowing users to maintain their privacy while managing their sensitive information.<br /><br />
 
 It supports **two modes**:  
 1. **Persistent mode**: Keeps the same `.onion` address across restarts.  
@@ -17,13 +17,13 @@ It supports **two modes**:
 - Docker Compose
 - Make<br />
 
-### **1️. Clone the repository**
+### **1. Clone the repository**
 ```sh
 git clone https://github.com/daisvke/ft_onion.git
 cd ft_onion
 ```
 
-### **2️. Configure environment**
+### **2. Configure environment**
 #### **.env files to create**
 Create a `.env` file from the example:  
 ```sh
