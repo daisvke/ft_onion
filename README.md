@@ -24,6 +24,16 @@ cd ft_onion
 ```
 
 ### **2. Configure environment**
+#### **Adapt port numbers**
+If you get the following error:
+```
+listen tcp4 0.0.0.0:4242: bind: address already in use
+```
+Use a host port that is available by modifying the following macro from the `.env` file:
+```
+PORT_HOST_SSH=4243
+```
+
 #### **.env files to create**
 Create a `.env` file from the example:  
 ```sh
