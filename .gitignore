@@ -11,4 +11,5 @@ auth.log
 fail2ban.log
 
 # Tor data
-tor_data/*
+tor_data/saved_hidden_service/*
+tor_data/hidden_service/*

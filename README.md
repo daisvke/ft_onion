@@ -65,7 +65,7 @@ This one for the persistence of the authorized SSH keys:
 #### Website intergration
 By default, we have our Slate Notes website hosted on the container,
 but you can add any other PHP or HTML website using the default configuration.
-Just place your web project at html/my_project and replace `slate` by `my_project` on configuration and Docker files.
+Just place your web project at `html/my_project` and replace `slate` by `my_project` on configuration and Docker files.
 
 #### These files can be empty, just create them using:
 ```sh
@@ -81,17 +81,33 @@ New-Item -Path "logs/auth.log", "logs/fail2ban.log", "config/ssh/authorized_keys
 Now that we have all the necessary empty files, we have two modes in which we can run this project:
 
 #### **1. Persistent Onion address**
-You will need this structure (from /var/lib/tor/hidden_service/) to run it with hostname persistence:
+- You will need this structure (from /var/lib/tor/hidden_service/) to run it with hostname persistence:
 ```sh
 ├── tor_data
-│   ├── authorized_clients
-│   ├── hostname
-│   ├── hs_ed25519_public_key
-│   └── hs_ed25519_secret_key
+    ├──hidden_service
+    ├──saved_hidden_service
+        ├── authorized_clients
+        ├── hostname # Contains the .onion address 
+        ├── hs_ed25519_public_key
+        └── hs_ed25519_secret_key
+```
 
-# Run:
+- If you run the project for the first time, you will need to populate `tor_data/saved_hidden_service`:
+```sh
+# Run the container. This will generate the necessary files in the container.
+make up
+
+# Export the hidden_service files from the container to the host (`tor_data/hidden_service_export/`)
+make tor-export
+
+# The files then need to be saved in the host folder `tor_data/saved_hidden_service/`.
+cp tor_data/hidden_service_export tor_data/saved_hidden_service
+```
+- Then, or if you already have the files in the right place, do:
+```sh
 make up
 ```
+To start the project and Tor with the saved parameters.<br />
 This will keep the same **.onion** address across restarts.  
 
 #### **2. Non-persistent Onion address**
@@ -275,6 +291,14 @@ You do not need `HTTPS` for a Tor `.onion` website because Tor already **encrypt
 
 ## Useful commands
 ```sh
+# Check logs from the container
+docker logs tor_service
+
+# Copy a local file into container
+docker cp ./some_file tor_service:/work
+# Copy files from container to local path
+docker cp tor_service:/var/logs/ /tmp/app_logs
+
 # Check the used ports inside the container with the corresponding processes
 docker exec -it tor_service ss -tulnp
 
@@ -285,6 +309,10 @@ docker port <CONTAINER ID>
 
 # Check Nginx config file syntax and run test
 docker exec -it tor_service nginx -t
+
+# Start a tiny temporary container, give it access to the current directory,
+# delete tor_data from inside the container, then throw the container away
+docker run --rm -v $(pwd):/data busybox rm -rf /data/tor_data
 ```
 
 ## Screenshot

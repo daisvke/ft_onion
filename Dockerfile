@@ -1,4 +1,4 @@
-FROM debian:latest
+FROM debian:12
 
 # Install all the necessary packages and remove the apt cache when finished
 RUN apt update && \
@@ -13,6 +13,7 @@ RUN chmod +x /usr/local/bin/setup.sh
 
 # Configure Tor
 COPY config/torrc /etc/tor/torrc
+COPY tor_data/hidden_service /var/lib/tor/hidden_service/
 
 # Configure Nginx
 RUN mkdir -p /var/www/html
