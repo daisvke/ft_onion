@@ -95,7 +95,7 @@ Now that we have all the necessary empty files, we have two modes in which we ca
 - If you run the project for the first time, you will need to populate `tor_data/saved_hidden_service`:
 ```sh
 # Run the container. This will generate the necessary files in the container.
-make up
+make
 
 # Export the hidden_service files from the container to the host (`tor_data/hidden_service_export/`)
 make tor-export
@@ -105,7 +105,7 @@ cp tor_data/hidden_service_export tor_data/saved_hidden_service
 ```
 - Then, or if you already have the files in the right place, do:
 ```sh
-make up
+make
 ```
 To start the project and Tor with the saved parameters.<br />
 This will keep the same **.onion** address across restarts.  
@@ -113,6 +113,9 @@ This will keep the same **.onion** address across restarts.
 #### **2. Non-persistent Onion address**
 ```sh
 make nonpersist
+
+# Or, if `tor_data/saved_hidden_service/` is empty:
+make
 ```
 A new **.onion** address will be generated on every restart.
 
