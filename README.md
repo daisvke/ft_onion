@@ -61,6 +61,7 @@ This one for the persistence of the authorized SSH keys:
 │   ├── ssh
 │   │   └── authorized_keys
 ```
+Here copy-paste the SSH keys (one key = one line) of the devices which SSH connections are authorized.
 
 #### Website intergration
 By default, we have our Slate Notes website hosted on the container,
@@ -144,6 +145,16 @@ Use **Tor Browser** to visit the site.
 
 - `torsocks` is a wrapper for applications that need to connect to the internet through the Tor network. It allows these applications to route their traffic through Tor, providing anonymity and privacy for the user.<br />
 
+Here’s the corrected version of your statement for clarity and accuracy:
+
+- **To use either of the two connection modes you can**:
+  - Add the SSH key of the device you want to connect from to the `authorized_keys` file on the host. This will automatically connect the device on login.
+  - Or, in `config/ssh/sshd_config`, change the following line:
+  ```
+  PasswordAuthentication no
+  ```
+  to `yes`. This will allow SSH connection with a password authentication.
+
 #### **1. To connect via SSH over Tor using torsocks**
 ```bash
 # Install torsocks
@@ -151,7 +162,7 @@ sudo apt install torsocks
 # Set up a Tor connection
 sudo tor
 # Connect to the server via SSH through the Tor network
-torsocks ssh <SSH_USER>@<your-hidden-service.onion> -p 4242
+torsocks ssh <SSH_USER>@<ONION_ADDRESS> -p <PORT_TOR_SSH> # This is the port given in `torrc` host file
 ```
 
 * **Pros**:
@@ -167,12 +178,12 @@ torsocks ssh <SSH_USER>@<your-hidden-service.onion> -p 4242
 docker exec -it tor_service /bin/bash
 
 # Connect to the container via SSH from the host
-ssh -p 4242 <SSH_USER>@localhost
+ssh -p <PORT_HOST_SSH> <SSH_USER>@localhost
 # Ex.:
 ssh -p 4242 user@localhost
 
 # Connect from another device on the same network
-ssh -p 4242 <SSH_USER>@<TOR_SERVICE_HOST_PRIVATE_IP>
+ssh -p <PORT_HOST_SSH> <SSH_USER>@<TOR_SERVICE_HOST_PRIVATE_IP>
 # Ex.:
 ssh -p 4242 user@192.168.43.67
 ```
@@ -183,6 +194,22 @@ ssh -p 4242 user@192.168.43.67
 * **Cons**:
     - **Exposure**: The server's IP address is exposed, which can make it a target for attacks. If the server is on a public network, it may be vulnerable to scanning and unauthorized access.
     - **Limited Access**: If you're trying to access the server from outside the local network, you may need to configure port forwarding on your router or use a VPN.
+
+#### **Check connections**
+Connections can be checked with the `w` command from the container:
+```
+root@x:/# w
+ 13:22:22 up 19:20,  2 users,  load average: 0.41, 0.66, 0.71
+USER      TTY      FROM             LOGIN@   IDLE   JCPU    PCPU WHAT
+user1     pts/0    172.18.0.1       13:20    1:26   0.00s   ?    -bash
+user2     pts/1    127.0.0.1        13:22    4.00s  0.00s   ?    -bash
+```
+- Here `user1` is connected with a regular SSH connection and `user2` with a SSH over Tor connection.
+- It says `user2` is connected from localhost 127.0.0.1 because we have in `torrc`:
+```
+HiddenServicePort 4242 127.0.0.1:4242
+```
+This tells the Tor service to direct connections from the Tor network to port 4242 of the local service. 
 
 #### SSH fortification
 We secured the SSH service against attacks by adding to our `sshd_config` file:
@@ -239,6 +266,12 @@ fail2ban-client status sshd
 
 # Display logs
 cat /var/log/fail2ban.log
+
+# Ban the IP Address
+fail2ban-client set <JAIL_NAME> banip <IP_ADDRESS>
+
+# Unban the IP Address
+fail2ban-client set <JAIL_NAME> unbanip <IP_ADDRESS>
 ```
 
 ![SSL & Fail2ban Authentication preview](screenshots/auth.png)
@@ -249,11 +282,10 @@ The address `192.168.16.1` is being banned.
 ```sh
 ssh-keygen
 ```
-- Copy the public key to the remote server:
+- Copy the public key to `config/ssh/authorized_keys` on the host machine
 
 ```sh
-ssh-copy-id user@remote_server -p 4242
-# Ex.: ssh-copy-id user@localhost -p 4242
+{ printf "\n"; cat ~/.ssh/id_rsa.pub; } >> ./config/ssh/authorized_keys
 ```
 - This will add an entry to `/home/user/.ssh/authorized_keys` in the container, and to `config/ssh/authorized_keys` on the host machine. Now the client can connect automatically to the server without having to log in.
 

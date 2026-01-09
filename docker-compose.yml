@@ -32,12 +32,13 @@ services:
     # Mount paths as volumes, optionally specifying a path on the host machine
     # (HOST:CONTAINER), or an access mode (HOST:CONTAINER:ro):
     # Read-Only (ro) / Read-Write (rw)
+    # These do not all need to be bound in the production stage.
     volumes:
       - ./html/slate:/var/www/slate:rw
-      - ./config/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./config/ssh/sshd_config:/etc/ssh/sshd_config:ro
-      - ./config/ssh/authorized_keys:/home/user/.ssh/authorized_keys:rw
-      - ./config/torrc:/etc/tor/torrc:ro
-      - ./config/jail.conf:/etc/fail2ban/jail.conf:ro
+      # - ./config/nginx.conf:/etc/nginx/nginx.conf:ro
+      # - ./config/ssh/sshd_config:/etc/ssh/sshd_config:ro
+      - ./config/ssh/authorized_keys:/home/${SSH_USER}/.ssh/authorized_keys:rw
+      # - ./config/torrc:/etc/tor/torrc:ro
+      # - ./config/jail.conf:/etc/fail2ban/jail.conf:ro
       - ./logs/auth.log:/var/log/auth.log:rw
       - ./logs/fail2ban.log:/var/log/fail2ban.log:rw

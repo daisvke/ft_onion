@@ -1,10 +1,16 @@
 # Use 'docker compose' if you are using the plugin,
 # otherwise use 'docker-compose'
-COMPOSE			= docker compose
+COMPOSE							= docker compose
 # COMPOSE = sudo docker-compose
 
 # The base docker compose YAML file
-BASE_YML		= docker-compose.yml
+BASE_YML						= docker-compose.yml
+# For address persistency
+HIDDEN_SERVICE_PATH_HOST		= tor_data/hidden_service
+# Path to the folder where we previously saved Tor data
+SAVED_HIDDEN_SERVICE_PATH_HOST	= tor_data/saved_hidden_service
+# Where Tor files are exported
+HIDDEN_SERVICE_EXPORT_PATH		= tor_data/hidden_service_export
 
 .PHONY: all build up nonpersist clean fclean re
 
@@ -20,10 +26,10 @@ all: up
 
 # Run container in hostname persistent mode
 up:
-	mkdir -p tor_data/hidden_service/
-	cp -R tor_data/saved_hidden_service/* tor_data/hidden_service/
+	mkdir -p $(HIDDEN_SERVICE_PATH_HOST)
+	cp -R $(SAVED_HIDDEN_SERVICE_PATH_HOST)/* $(HIDDEN_SERVICE_PATH_HOST)
 	$(COMPOSE) -f $(BASE_YML) up -d --build
-	rm -rf tor_data/hidden_service/*
+	rm -rf $(HIDDEN_SERVICE_PATH_HOST)/*
 
 # Stops containers without deleting anything
 stop:
@@ -46,14 +52,17 @@ nonpersist:
 	$(COMPOSE) -f $(BASE_YML) up -d --build
 
 tor-export:
-	rm -rf tor_data/hidden_service/*
+	rm -rf $(HIDDEN_SERVICE_PATH_HOST)/*
 	@echo "Exporting Tor hidden service identity..."
-	docker cp tor_service:/var/lib/tor/hidden_service/. tor_data/hidden_service_export
+	docker cp tor_service:/var/lib/tor/hidden_service/. $(HIDDEN_SERVICE_EXPORT_PATH)
 
 
 # ****************************
 #         CLEAN RULES
 # ****************************
+
+clean-tor:
+	rm -rf $(SAVED_HIDDEN_SERVICE_PATH_HOST)/* $(HIDDEN_SERVICE_PATH_HOST)/*
 
 # Shut all containers down and delete them
 clean:
