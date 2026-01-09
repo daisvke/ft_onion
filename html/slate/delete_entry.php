@@ -2,30 +2,42 @@
 require_once("header.php");
 require_once("file_handler.php");
 
-// Check if JSON data is received
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-	$jsonData = file_get_contents('php://input');
-	if (!empty($jsonData) && $jsonData !== "") {
-		// Decode the JSON data into an array of objects
-		$payload = json_decode($jsonData, true);
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $jsonData = file_get_contents("php://input");
 
-		// Delete entry from data file
-		if ($payload !== null) {
-			try {
-				$data = open_file_and_get_data();
-				if (!$data || $data == "")
-					throw new Exception("data is empty.");
-				
-                // Remove the string from the array
-                $diffData = array_filter($data, function ($line) use ($payload) {
-                    return trim($line) !== trim($payload);
-                });
+    if ($jsonData === false || trim($jsonData) === "") {
+        http_response_code(400);
+        echo json_encode(["error" => "No input received"]);
+        exit;
+    }
 
-				write_array_to_file($diffData);
-			} catch (Exception $e) {
-				echo json_encode(["error" => $e->getMessage()]);
-				http_response_code(500);
-			}
-		}
-	}
+    // Decode JSON STRING
+    $entryToDelete = json_decode($jsonData, true);
+
+    if (!is_string($entryToDelete)) {
+        http_response_code(400);
+        echo json_encode(["error" => "Invalid payload"]);
+        exit;
+    }
+
+    try {
+        $data = open_file_and_get_data();
+
+        if (empty($data)) {
+            throw new Exception("Data file is empty.");
+        }
+
+        $entryToDelete = trim($entryToDelete);
+
+        $filteredData = array_values(array_filter($data, function ($line) use ($entryToDelete) {
+            return trim($line) !== $entryToDelete;
+        }));
+
+        write_array_to_file($filteredData);
+
+        echo json_encode(["success" => true]);
+    } catch (Exception $e) {
+        http_response_code(500);
+        echo json_encode(["error" => $e->getMessage()]);
+    }
 }

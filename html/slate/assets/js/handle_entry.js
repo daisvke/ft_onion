@@ -43,7 +43,7 @@ function delEntryOnDb(entry) {
 		+ entry
 		) == false) return;
 
-	// Convert the array of users to a JSON string
+	// Convert the note to a JSON string
 	var jsonData = JSON.stringify(entry);
 
 	try {

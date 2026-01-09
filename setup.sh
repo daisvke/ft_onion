@@ -9,12 +9,11 @@ chmod -R 700 /var/lib/tor
 # PHP website
 
 # Choose an owner having sufficient permissions to write on the file
-# chown www-data:www-data /var/www/html/data.csv
+chown www-data:www-data /var/www/slate/data.csv
 
 # Apply usual modes for folders/files
-find /var/www/html -type d -exec chmod 755 {} \;
-find /var/www/html -type f -exec chmod 644 {} \;
-
+find /var/www/slate -type d -exec chmod 755 {} \;
+find /var/www/slate -type f -exec chmod 644 {} \;
 
 # SSH
 
