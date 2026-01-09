@@ -277,6 +277,9 @@ fail2ban-client set <JAIL_NAME> unbanip <IP_ADDRESS>
 ![SSL & Fail2ban Authentication preview](screenshots/auth.png)
 The address `192.168.16.1` is being banned.
 
+#### Ban persistency
+- fail2ban rules are persistent if you keep the `logs/auth.log` file intact on the host.
+
 **4. Use Key-Based Authentication**:<br />
 - If not done yet, generate an SSH key pair on your local machine:
 ```sh
