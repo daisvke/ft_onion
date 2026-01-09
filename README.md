@@ -34,16 +34,12 @@ Use a host port that is available by modifying the following macro from the `.en
 PORT_HOST_SSH=4243
 ```
 
-#### **.env files to create**
+#### **.env file to create**
 Create a `.env` file from the example:  
 ```sh
-# For ft_onion 
 cp .env.example .env
-
-# For Slate Note
-cp html/slate/.env.example html/slate/.env
 ```
-Then edit `.env` files as needed.
+Then edit the `.env` file as needed.
 
 #### **Log files to create**
 You will need this structure for log persistence:
@@ -67,15 +63,6 @@ Here copy-paste the SSH keys (one key = one line) of the devices which SSH conne
 By default, we have our Slate Notes website hosted on the container,
 but you can add any other PHP or HTML website using the default configuration.
 Just place your web project at `html/my_project` and replace `slate` by `my_project` on configuration and Docker files.
-
-#### These files can be empty, just create them using:
-```sh
-# On Unix
-touch logs/auth.log logs/fail2ban.log config/ssh/authorized_keys
-
-# On Windows
-New-Item -Path "logs/auth.log", "logs/fail2ban.log", "config/ssh/authorized_keys" -ItemType File
-```
 
 ### 3. **Build the image and run the container**
 
