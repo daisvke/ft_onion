@@ -33,15 +33,14 @@ all: up
 # - Delete the temporary folder
 up: setup
 	mkdir -p $(HIDDEN_SERVICE_PATH_HOST)
-	@if [ -d "$(SAVED_HIDDEN_SERVICE_PATH_HOST)" ] && [ "$$(find $(SAVED_HIDDEN_SERVICE_PATH_HOST) -type f | wc -l)" -gt 0 ]; then \
-			echo "Copying hidden service files..."; \
-			cp -R $(SAVED_HIDDEN_SERVICE_PATH_HOST)/* $(HIDDEN_SERVICE_PATH_HOST); \
-		else \
-			echo "No hidden service files to copy, skipping."; \
+	@if [ -d "$(SAVED_HIDDEN_SERVICE_PATH_HOST)" ]; then \
+		echo "Copying hidden service files..."; \
+		rsync -a $(SAVED_HIDDEN_SERVICE_PATH_HOST)/ $(HIDDEN_SERVICE_PATH_HOST)/; \
+	else \
+		echo "No hidden service files to copy, skipping."; \
 	fi
 	$(COMPOSE) -f $(BASE_YML) up -d --build
 	rm -rf $(HIDDEN_SERVICE_PATH_HOST)/*
-
 
 # Stops containers without deleting anything
 stop:
