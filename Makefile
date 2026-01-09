@@ -12,7 +12,7 @@ SAVED_HIDDEN_SERVICE_PATH_HOST	= tor_data/saved_hidden_service
 # Where Tor files are exported
 HIDDEN_SERVICE_EXPORT_PATH		= tor_data/hidden_service_export
 
-.PHONY: all build up nonpersist clean fclean re
+.PHONY: all build up stop start down restart nonpersist tor-export clean-tor clean fclean re
 
 
 # ****************************
